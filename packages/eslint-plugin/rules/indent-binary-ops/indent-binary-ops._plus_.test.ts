@@ -111,6 +111,10 @@ run({
         || c
         || d;
     `,
+    $`
+      { aaaaa &&
+        bbbbb }
+    `,
   ],
   invalid: [],
 })
@@ -118,6 +122,16 @@ run({
 it('snapshots', async () => {
   const { fix } = createLinter('indent-binary-ops', rule)
 
+  expect.soft(
+    fix($`
+      { aaaaa &&
+            bbbbb }
+    `),
+  ).toMatchInlineSnapshot(`
+      "{ aaaaa &&
+        bbbbb }"
+    `,
+  )
   expect.soft(
     fix($`
       if (
